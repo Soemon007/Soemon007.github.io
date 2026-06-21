@@ -77,13 +77,6 @@ post_class: post-template
                 {{content}}
             </div>
 
-            <!-- Rating -->
-            {% if page.rating %}
-            <div class="rating mb-4 d-flex align-items-center">
-                <strong class="mr-1">Rating:</strong> {% include star_rating.html %}
-            </div>
-            {% endif %}
-
             <!-- Post Date -->
             <p>
             <small>
@@ -138,20 +131,6 @@ post_class: post-template
     </div>
 </div>
 <!-- End Article
-================================================== -->
-
-<!-- Begin Comments
-================================================== -->
-{% if page.comments != false %}
-    <div class="container">
-        <div id="comments" class="row justify-content-center mb-5">
-            <div class="col-md-8">
-                {% include disqus.html %}
-            </div>
-        </div>
-    </div>
-{% endif %}
-<!--End Comments
 ================================================== -->
 
 <!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
