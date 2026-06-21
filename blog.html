@@ -1,0 +1,20 @@
+---
+layout: default
+title: Blogs
+permalink: /blogs/
+---
+<!-- Blogs Index
+================================================== -->
+<section class="recent-posts">
+    <div class="section-title">
+        <h2><span>Blogs</span></h2>
+        <h3><span>Thoughts, writeups, and things I've learned</span></h3>
+    </div>
+    <div class="row listrecent">
+        {% for post in site.posts %}
+        {% if post.categories contains "Blogs" %}
+        {% include postbox.html %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</section>
