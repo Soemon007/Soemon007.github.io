@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "About Bundler"
+title:  "Generative and Agentic AI | SOS '26"
 author: sal
-categories: [ Jekyll ]
+categories: [AI/ML]
 image: assets/images/2.jpg
 rating: 3
 ---
