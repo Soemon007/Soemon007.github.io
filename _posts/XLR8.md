@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "XLR8 Bot Making| ERC Club IITB"
+title:  "XLR8 Bot Making | ERC Club IITB"
 author: sal
 categories: [ Project, Electronics]
 image: assets/images/16.jpg
