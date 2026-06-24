@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Accumulated experience of social living"
+title:  "Data Analysis and Modelling | DAV Team Recruitment Assignment"
 author: sal
-categories: [ Jekyll, tutorial ]
+categories: [ Project, Data Analysis, AI/ML]
 image: assets/images/15.jpg
 ---
 The die cut has also been employed in the non-juvenile sphere as well, a recent example being Jonathan Safran Foer’s ambitious Tree of Codes. 
