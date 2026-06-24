@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "We all wait for summer"
+title:  "Portfolio Management Competition | Finance Club"
 author: john
-categories: [ Jekyll, tutorial ]
+categories: [Finance]
 image: assets/images/5.jpg
 rating: .5
 ---
