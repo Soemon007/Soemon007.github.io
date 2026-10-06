@@ -3,12 +3,21 @@
 // gradient options: "peach" | "lavender" | "mint" | "sky" | "butter"
 export type Gradient = "peach" | "lavender" | "mint" | "sky" | "butter";
 
+/**
+ * Use as a link value for something that is not ready yet. It renders as a greyed-out
+ * "soon" button instead of a link that goes nowhere. Replace it with the real URL when ready,
+ * or leave the link out entirely to hide the button.
+ */
+export const SOON = "soon";
+
 export const profile = {
   name: "Rehan Mallik",
   email: "25b0408@iitb.ac.in",
+  url: "https://soemon007.github.io",
   github: "https://github.com/Soemon007",
   linkedin: "https://www.linkedin.com/in/Rehan-Mallik",
-  resume: "/resume.pdf",
+  // To enable: drop resume.pdf into /public and set this to "/resume.pdf".
+  resume: SOON,
 };
 
 export type Feature = {
@@ -17,7 +26,7 @@ export type Feature = {
   description: string;
   metrics: { value: string; label: string }[];
   tags: string[];
-  /** Optional links. Leave empty ("") to hide the button. */
+  /** Optional links. Leave out to hide the button, or use SOON for a placeholder. */
   github?: string;
   kaggle?: string;
   gradient: Gradient;
@@ -37,7 +46,7 @@ export const featured: Feature[] = [
     ],
     tags: ["PyTorch", "OpenCV", "Computer Vision"],
     github: "https://github.com/Soemon007",
-    kaggle: "",
+    kaggle: SOON,
     gradient: "peach",
   },
   {
@@ -53,7 +62,7 @@ export const featured: Feature[] = [
     ],
     tags: ["PyTorch", "RL", "Quant"],
     github: "https://github.com/Soemon007",
-    kaggle: "",
+    kaggle: SOON,
     gradient: "sky",
   },
   {
@@ -64,23 +73,23 @@ export const featured: Feature[] = [
     metrics: [],
     tags: ["LLMs", "RAG", "Agentic AI"],
     github: "https://github.com/Soemon007",
-    kaggle: "",
+    kaggle: SOON,
     gradient: "lavender",
   },
 ];
 
 export const projects: { title: string; text: string; tags: string[]; gradient: Gradient; github?: string; kaggle?: string }[] = [
-  { title: "Multi-Asset Portfolio Optimisation", text: "4-bucket goals-based portfolio, CAPM screening of 23 securities, 6 equities at beta 0.55, Excel model with Treynor and Jensen's Alpha.", tags: ["Finance", "Excel"], gradient: "mint" },
-  { title: "Joystick Pick-up & Place Bot", text: "Sub-1.75 kg ESP32 bot, 5 DC motors and servo gripper, carries 250 g up 10°/20°/30° inclines.", tags: ["ESP32", "Robotics"], gradient: "butter" },
-  { title: "Automated M&A Teaser Deck Builder", text: "Python pipeline with APIs and scraping, ~1 min per deck. First freshman team in Kelp Hackathon finals.", tags: ["Python", "Automation"], gradient: "peach" },
-  { title: "Quantitative Finance Reading Project", text: "Probability, stochastic processes and trading methodology.", tags: ["Quant", "Theory"], gradient: "sky" },
-  { title: "Strategic Analysis of BEL", text: "Porter's Five Forces, SWOT and BCG Matrix.", tags: ["Strategy"], gradient: "lavender" },
+  { title: "Multi-Asset Portfolio Optimisation", text: "4-bucket goals-based portfolio, CAPM screening of 23 securities, 6 equities at beta 0.55, Excel model with Treynor and Jensen's Alpha.", tags: ["Finance", "Excel"], gradient: "mint", kaggle: SOON },
+  { title: "Joystick Pick-up & Place Bot", text: "Sub-1.75 kg ESP32 bot, 5 DC motors and servo gripper, carries 250 g up 10°/20°/30° inclines.", tags: ["ESP32", "Robotics"], gradient: "butter", kaggle: SOON },
+  { title: "Automated M&A Teaser Deck Builder", text: "Python pipeline with APIs and scraping, ~1 min per deck. First freshman team in Kelp Hackathon finals.", tags: ["Python", "Automation"], gradient: "peach", kaggle: SOON },
+  { title: "Quantitative Finance Reading Project", text: "Probability, stochastic processes and trading methodology.", tags: ["Quant", "Theory"], gradient: "sky", kaggle: SOON },
+  { title: "Strategic Analysis of BEL", text: "Porter's Five Forces, SWOT and BCG Matrix.", tags: ["Strategy"], gradient: "lavender", kaggle: SOON },
 ];
 
 export const experience = [
-  { date: "May – Jul '26", role: "Product Manager Intern", org: "Loyalty Rewardz", text: "Prototyped a personalised ad-targeting product and won leadership buy-in in 3 weeks. K-means and GMM audience segmentation on 10+ behavioural features. Built a functional AI voice agent." },
-  { date: "Apr '26 – Present", role: "Editor", org: "IIT Tech Ambit", text: "Tri-IIT publication. 7+ member core team, selected from 50+ applicants." },
-  { date: "Dec '25 – Feb '26", role: "Junior Engineer, Payload", org: "IITB Rocket Team", text: "Selected from 80+ applicants." },
+  { date: "May – Jul '26", role: "Product Manager Intern", org: "Loyalty Rewardz", text: "My very first corporate internship, where I learnt a lot on how a company functions." },
+  { date: "Apr '26 – Present", role: "Editor", org: "IIT Tech Ambit", text: "We work together to publish articles on a monthly cadence, on a wide variety of fun and interesting topics!" },
+  { date: "Dec '25 – Feb '26", role: "Junior Engineer", org: "IITB Rocket Team", text: "For a brief, but fun while, I was part of IITB Rocket Team in the Payload subdivision." },
 ];
 
 export const skills = [
