@@ -1,0 +1,128 @@
+/*
+ * Reusable style classes. Use these by name in className, e.g. `display`, `label-mono`, `pill pill-primary`.
+ * Add a new one here (with @utility) instead of repeating long class lists in components.
+ */
+
+/* Typography */
+@utility display {
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+}
+
+/* Buttons: use via the <PillLink> component */
+@utility pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.7rem 1.4rem;
+  font-size: 15px;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+@utility pill-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+@utility pill-secondary {
+  background: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  &:hover {
+    background: var(--band);
+  }
+}
+
+/* Card gradients: pick one with the `gradient` field in src/data (see lib/gradients.ts) */
+@utility grad-peach {
+  background:
+    radial-gradient(at 20% 20%, var(--peach), transparent 60%),
+    radial-gradient(at 80% 70%, var(--butter), transparent 60%),
+    radial-gradient(at 50% 100%, var(--lavender), transparent 60%), var(--band);
+}
+@utility grad-sky {
+  background:
+    radial-gradient(at 20% 30%, var(--sky), transparent 60%),
+    radial-gradient(at 80% 80%, var(--mint), transparent 60%),
+    radial-gradient(at 90% 10%, var(--lavender), transparent 55%), var(--band);
+}
+@utility grad-lavender {
+  background:
+    radial-gradient(at 25% 25%, var(--lavender), transparent 60%),
+    radial-gradient(at 80% 75%, var(--peach), transparent 60%),
+    radial-gradient(at 70% 10%, var(--sky), transparent 55%), var(--band);
+}
+@utility grad-mint {
+  background:
+    radial-gradient(at 30% 30%, var(--mint), transparent 60%),
+    radial-gradient(at 80% 80%, var(--sky), transparent 60%), var(--band);
+}
+@utility grad-butter {
+  background:
+    radial-gradient(at 30% 30%, var(--butter), transparent 60%),
+    radial-gradient(at 80% 80%, var(--peach), transparent 60%), var(--band);
+}
+
+/* Hover effects ("flowy" motion) */
+@utility lift {
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 24px 50px -30px color-mix(in oklab, var(--foreground) 35%, transparent);
+  }
+}
+@utility flow-panel {
+  background-size: 140% 140%;
+  background-position: 0% 0%;
+  transition:
+    background-position 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.8s ease;
+  .group:hover & {
+    background-position: 100% 100%;
+    filter: saturate(1.25);
+  }
+}
+@utility link-flow {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+@utility tag-flow {
+  transition:
+    background 0.4s ease,
+    color 0.4s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover {
+    background: var(--foreground);
+    color: var(--background);
+    transform: translateY(-2px);
+  }
+}

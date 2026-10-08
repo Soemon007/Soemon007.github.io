@@ -1,0 +1,22 @@
+/* Element-level defaults. */
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Custom text highlight */
+::selection {
+  background: var(--lavender);
+  color: var(--foreground);
+}

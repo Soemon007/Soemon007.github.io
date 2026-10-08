@@ -1,0 +1,24 @@
+/*
+ * Stylesheet entry point. The real styles live in src/styles/, split by purpose:
+ *
+ *   fonts.css      font files
+ *   tokens.css     colours, fonts, radius (change the look here)
+ *   base.css       element defaults
+ *   utilities.css  reusable classes: display, label-mono, pill, grad-*, lift ...
+ *   motion.css     orbs, scroll-reveal, reduced-motion overrides
+ *   decor.css      cursor, graph-paper backdrop, geometric artwork
+ *   sections.css   section bands, per-section layouts, timeline
+ *
+ * Order matters: later files can override earlier ones.
+ */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@import "./styles/fonts.css";
+@import "./styles/tokens.css";
+@import "./styles/base.css";
+@import "./styles/utilities.css";
+@import "./styles/motion.css";
+@import "./styles/decor.css";
+@import "./styles/sections.css";
