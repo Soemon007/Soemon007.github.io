@@ -83,6 +83,12 @@ component in `components/common/` rather than copying class lists.
   into view, from the left for most bands and from the right for the reversed one, while its hairline fades in.
   This comes with `<Section cut>` automatically (the `reveal-band` class); there is nothing to add by hand. To
   change the feel, edit the duration or `--ease-snap` in `styles/motion.css` / `tokens.css`.
+- **Scroll snapping:** when you stop scrolling with a mouse wheel or trackpad, the page glides (about 0.4 to 0.6s,
+  fast start, soft landing) to the next or previous section. A short section hands over as soon as you scroll; a
+  section taller than the screen, like the project cards, scrolls freely and only hands over near its edge. Only
+  mouse and trackpad scrolling on desktop is affected: keyboard, menu links, scrollbar dragging, touch screens
+  and reduced motion are left alone, and any new input cancels a glide. The rules live in `lib/snap.ts`, the
+  wiring in `hooks/useSnapScroll.ts`. To turn it off, remove `useSnapScroll()` from `components/HomePage.tsx`.
 - Drifting colour orbs, rotating line art, hover lifts and the custom cursor are decorative only.
 - **Reduced motion is mandatory.** Every animation has an override or is written inside
   `prefers-reduced-motion: no-preference` (see `motion.css`, `decor.css`). Add one for anything new. The finished
