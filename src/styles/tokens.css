@@ -47,4 +47,7 @@
 
   /* Line colour of the geometric artwork */
   --art-ink: oklch(0.38 0.025 170);
+
+  /* Motion: the one easing used for anything quick and crisp (fast start, soft landing) */
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
 }

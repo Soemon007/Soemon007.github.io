@@ -75,12 +75,18 @@ component in `components/common/` rather than copying class lists.
 
 ## Motion
 
-- Slow and soft: 0.4–1.2s easings, small movements (a few pixels), never bouncing.
-- **Scroll reveal:** add the `reveal` class. Content above the fold is never hidden; the page is readable
-  without JavaScript.
+- **Quick and crisp, never bouncy.** One easing token, `--ease-snap` (fast start, soft landing), drives the
+  entrances. Durations are 0.5 to 0.7s with small movements.
+- **Scroll reveal:** add the `reveal` class to fade an element up as it arrives. Content above the fold is never
+  hidden, and the page is readable without JavaScript.
+- **Section transitions:** every tinted band (`<Section cut="...">`) sweeps in along its slanted edge as it scrolls
+  into view, from the left for most bands and from the right for the reversed one, while its hairline fades in.
+  This comes with `<Section cut>` automatically (the `reveal-band` class); there is nothing to add by hand. To
+  change the feel, edit the duration or `--ease-snap` in `styles/motion.css` / `tokens.css`.
 - Drifting colour orbs, rotating line art, hover lifts and the custom cursor are decorative only.
-- **Reduced motion is mandatory.** Every animation has an override in a `prefers-reduced-motion` block
-  (`motion.css`, `decor.css`). Add one for anything new.
+- **Reduced motion is mandatory.** Every animation has an override or is written inside
+  `prefers-reduced-motion: no-preference` (see `motion.css`, `decor.css`). Add one for anything new. The finished
+  design must look identical with and without motion.
 
 ## Accessibility baseline
 

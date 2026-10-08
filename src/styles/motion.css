@@ -26,11 +26,35 @@
    Hidden only once <html> has the `js` class, so the page is readable before scripts load. */
 @utility reveal {
   transition:
-    opacity 0.8s ease,
-    transform 0.8s ease;
+    opacity 0.6s var(--ease-snap),
+    transform 0.6s var(--ease-snap);
   html.js &:not([data-in]) {
     opacity: 0;
     transform: translateY(24px);
+  }
+}
+
+/* Section transitions. A tinted band sweeps in along its slanted edge as it scrolls into view, and its
+   hairline fades in, so moving from one section to the next feels crisp. <Section cut="..."> adds the
+   `reveal-band` class (the useReveal hook flips it); the band's shape comes from --cut in sections.css.
+   Only with JavaScript running and only when motion is allowed; reduced motion and print get the finished band. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .section-cut::before {
+    transition: clip-path 0.65s var(--ease-snap);
+  }
+  .section-cut::after {
+    transition: opacity 0.5s var(--ease-snap) 0.15s;
+  }
+  /* Collapsed to one side edge (same corners, in the same order, as the finished shape in sections.css) so the
+     browser can interpolate: most bands sweep in from the left, the reversed one from the right. */
+  html.js .section-cut.reveal-band:not([data-in])::before {
+    clip-path: polygon(0 var(--cut), 0 0, 0 calc(100% - var(--cut)), 0 100%);
+  }
+  html.js .section-cut-reverse.reveal-band:not([data-in])::before {
+    clip-path: polygon(100% 0, 100% var(--cut), 100% 100%, 100% calc(100% - var(--cut)));
+  }
+  html.js .section-cut.reveal-band:not([data-in])::after {
+    opacity: 0;
   }
 }
 

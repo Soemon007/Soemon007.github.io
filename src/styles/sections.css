@@ -46,26 +46,29 @@ li:hover .timeline-dot {
 main > section {
   scroll-margin-top: 84px;
 }
+/* The angled band behind a section. --cut is how far the slanted edges drop: change it here and the band,
+   its margins and its hairline all follow. The drop-in animation is in motion.css. */
 .section-cut {
+  --cut: 44px;
   position: relative;
   isolation: isolate;
-  margin-block: 44px;
+  margin-block: var(--cut);
 }
 .section-cut::before {
   content: "";
   position: absolute;
-  inset: -44px 0;
+  inset: calc(var(--cut) * -1) 0;
   z-index: -1;
   background: var(--band);
-  clip-path: polygon(0 44px, 100% 0, 100% calc(100% - 44px), 0 100%);
+  clip-path: polygon(0 var(--cut), 100% 0, 100% calc(100% - var(--cut)), 0 100%);
 }
 .section-cut-reverse::before {
-  clip-path: polygon(0 0, 100% 44px, 100% 100%, 0 calc(100% - 44px));
+  clip-path: polygon(0 0, 100% var(--cut), 100% 100%, 0 calc(100% - var(--cut)));
 }
 .section-cut::after {
   content: "";
   position: absolute;
-  top: -22px;
+  top: calc(var(--cut) / -2);
   left: 0;
   width: 100%;
   height: 1px;
@@ -116,16 +119,6 @@ main > section {
 }
 @media (max-width: 767px) {
   .section-cut {
-    margin-block: 24px;
-  }
-  .section-cut::before {
-    inset: -24px 0;
-    clip-path: polygon(0 24px, 100% 0, 100% calc(100% - 24px), 0 100%);
-  }
-  .section-cut-reverse::before {
-    clip-path: polygon(0 0, 100% 24px, 100% 100%, 0 calc(100% - 24px));
-  }
-  .section-cut::after {
-    top: -12px;
+    --cut: 24px;
   }
 }

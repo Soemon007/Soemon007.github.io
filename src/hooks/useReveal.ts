@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 
 /**
- * Fades in anything marked with the `reveal` class as it scrolls into view.
- * Call once per page. To animate an element, just add `reveal` to its className.
+ * Plays the entrance of anything marked `reveal` (a fade-up) or `reveal-band` (a section's angled band
+ * dropping in, added by <Section cut>) as it scrolls into view. Call once per page. To animate an
+ * element, just add `reveal` to its className.
  *
  * Content is only hidden once JavaScript is running (the `js` class on <html>), so the
  * pre-rendered page is fully readable before the scripts load, and without them. It is also
@@ -11,7 +12,9 @@ import { useEffect } from "react";
 export function useReveal() {
   // Runs after every render so newly mounted or re-rendered elements are always picked up.
   useEffect(() => {
-    const all = Array.from(document.querySelectorAll<HTMLElement>(".reveal:not([data-in])"));
+    const all = Array.from(
+      document.querySelectorAll<HTMLElement>(".reveal:not([data-in]), .reveal-band:not([data-in])"),
+    );
     const show = (el: Element) => el.setAttribute("data-in", "");
 
     if (typeof IntersectionObserver === "undefined") {

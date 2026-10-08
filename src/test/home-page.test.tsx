@@ -47,6 +47,10 @@ describe("home page structure", () => {
       s.classList.contains("section-cut-reverse") ? "reverse" : "forward",
     );
     expect(bands).toEqual(["forward", "forward", "reverse"]);
+    // Every band plays the drop-in entrance (see styles/motion.css).
+    for (const band of container.querySelectorAll("main > section.section-cut")) {
+      expect(band, "a band is missing the entrance class").toHaveClass("reveal-band");
+    }
   });
 });
 
@@ -119,7 +123,9 @@ describe("interactions", () => {
 
   it("reveals content when scroll observation is unavailable", () => {
     const { container } = render(<HomePage />);
-    const hidden = container.querySelectorAll(".reveal:not([data-in])");
+    const hidden = container.querySelectorAll(
+      ".reveal:not([data-in]), .reveal-band:not([data-in])",
+    );
     expect(hidden).toHaveLength(0);
   });
 });

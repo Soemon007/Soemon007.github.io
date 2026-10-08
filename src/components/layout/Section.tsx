@@ -23,7 +23,7 @@ export function Section({ id, cut, className, children }: SectionProps) {
       id={id}
       className={cn(
         "py-20 md:py-28 lg:py-36",
-        cut && "section-cut",
+        cut && "section-cut reveal-band",
         cut === "reverse" && "section-cut-reverse",
         className,
       )}

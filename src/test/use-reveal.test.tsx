@@ -22,6 +22,8 @@ function Demo() {
     <>
       <div id="above" className="reveal" />
       <div id="below" className="reveal" />
+      <section id="band-above" className="section-cut reveal-band" />
+      <section id="band-below" className="section-cut reveal-band" />
     </>
   );
 }
@@ -30,7 +32,7 @@ beforeEach(() => {
   vi.useFakeTimers();
   vi.stubGlobal("IntersectionObserver", FakeObserver);
   vi.spyOn(Element.prototype, "getBoundingClientRect").mockImplementation(function (this: Element) {
-    return { top: this.id === "below" ? 5000 : 100 } as DOMRect;
+    return { top: this.id.endsWith("below") ? 5000 : 100 } as DOMRect;
   });
 });
 
@@ -56,6 +58,17 @@ describe("useReveal", () => {
 
     act(() => vi.advanceTimersByTime(60_000));
     expect(below, "must not fade in on a timer, only on scroll").not.toHaveAttribute("data-in");
+
+    act(() => callback([{ target: below, isIntersecting: true }]));
+    expect(below).toHaveAttribute("data-in");
+  });
+
+  it("treats a section band like any other entrance: visible if on screen, otherwise waits for scroll", () => {
+    const { container } = render(<Demo />);
+    const above = container.querySelector("#band-above") as HTMLElement;
+    const below = container.querySelector("#band-below") as HTMLElement;
+    expect(above).toHaveAttribute("data-in");
+    expect(below).not.toHaveAttribute("data-in");
 
     act(() => callback([{ target: below, isIntersecting: true }]));
     expect(below).toHaveAttribute("data-in");
