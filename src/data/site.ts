@@ -5,12 +5,11 @@ export const site = {
   url: "https://soemon007.github.io",
   title: "Rehan Mallik",
   shareTitle: "Rehan Mallik",
-  description:
-    "Portfolio of Rehan Mallik, Chemical Engineering student at IIT Bombay building ML systems for medicine and markets.",
-  shareDescription: "Building intelligent systems for medicine and markets.",
+  description: "Portfolio of Rehan Mallik, Chemical Engineering student at IIT Bombay.",
+  shareDescription: "Portfolio of Rehan Mallik, Chemical Engineering student at IIT Bombay.",
   /** Link-preview image, 1200×630, served from /public. */
   shareImage: "/og.jpg",
-  shareImageAlt: "Rehan Mallik, ML, Quant and Product, IIT Bombay",
+  shareImageAlt: "Rehan Mallik, Chemical engineering at IIT Bombay",
   /** Shown in the footer. A fixed number, so the page never differs between build and visit. */
   copyrightYear: 2026,
 };
