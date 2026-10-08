@@ -1,0 +1,70 @@
+# Publishes the website automatically.
+#
+# Every time a change is pushed to main (for example an edit made on github.com), this checks the
+# project, rebuilds the published site in docs/, commits it, and asks GitHub Pages to update.
+# The change is live a few minutes later. A change that fails the checks is NOT published: the run
+# shows a red cross, with the reason, under the repository's Actions tab.
+#
+# NOT ACTIVE YET: GitHub only runs workflows from .github/workflows/. To turn it on, follow
+# "Publishing" in guides/ARCHITECTURE.md.
+name: Publish site
+
+on:
+  push:
+    branches: [main]
+    # The workflow's own commit only touches docs/, so it must not start another run.
+    paths-ignore:
+      - "docs/**"
+  workflow_dispatch:
+
+concurrency:
+  group: publish-site
+  cancel-in-progress: false
+
+permissions:
+  contents: write # to commit the rebuilt docs/ folder
+  pages: write # to ask GitHub Pages to update
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Always the newest main, even if an earlier run committed while this one was waiting.
+          ref: main
+
+      - uses: oven-sh/setup-bun@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: bun install --frozen-lockfile
+
+      # Type check, lint, tests, then rebuild docs/ and verify it. Fails here if a rule is broken,
+      # and then nothing below runs, so the live site is never replaced by a broken one.
+      - name: Check the project and rebuild docs/
+        run: bun run check
+
+      - name: Commit the rebuilt site
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A docs
+          if git diff --cached --quiet; then
+            echo "docs/ is already up to date. Nothing to publish."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "Publish site (built from ${GITHUB_SHA::7})"
+          git push origin main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # A push made by a workflow does not always start the Pages build, so ask for it explicitly.
+      - name: Ask GitHub Pages to update
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
