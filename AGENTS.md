@@ -58,4 +58,5 @@ Details: [guides/ARCHITECTURE.md](guides/ARCHITECTURE.md) (where things live, ho
 Run `bun run check`. It runs the type check, lint, tests, builds the static site into `docs/` and verifies it.
 The tests enforce the rules above, so a failure message tells you which rule was broken and where.
 Then **commit the updated `docs/` folder together with your change**: pushing it is what publishes the site.
-(If the publish workflow is switched on, it rebuilds `docs/` for you, but only after the checks pass.)
+(The publish workflow in `.github/workflows/` also rebuilds `docs/` after every push to `main`, but only if the
+checks pass. Do not delete or weaken it.)

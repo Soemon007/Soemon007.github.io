@@ -5,8 +5,7 @@
 # The change is live a few minutes later. A change that fails the checks is NOT published: the run
 # shows a red cross, with the reason, under the repository's Actions tab.
 #
-# NOT ACTIVE YET: GitHub only runs workflows from .github/workflows/. To turn it on, follow
-# "Publishing" in guides/ARCHITECTURE.md.
+# It only runs in the main repo (Soemon007/Soemon007.github.io), not in copies of it.
 name: Publish site
 
 on:
@@ -27,6 +26,7 @@ permissions:
 
 jobs:
   publish:
+    if: github.repository == 'Soemon007/Soemon007.github.io'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

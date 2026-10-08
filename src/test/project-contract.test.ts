@@ -137,6 +137,14 @@ describe("project setup", () => {
     }
   });
 
+  it("keeps the workflow that publishes the site automatically", () => {
+    const workflow = ".github/workflows/publish.yml";
+    expect(existsSync(join(root, workflow)), `${workflow} was removed`).toBe(true);
+    expect(read(workflow), "the workflow must run the full check before publishing").toContain(
+      "bun run check",
+    );
+  });
+
   it("keeps the written rules that guide future edits", () => {
     const agents = read("AGENTS.md");
     expect(agents).toContain("LOVABLE:BEGIN");
