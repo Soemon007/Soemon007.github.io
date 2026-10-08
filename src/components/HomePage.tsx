@@ -11,7 +11,6 @@ import { Hero } from "@/components/sections/Hero";
 import { MoreProjects } from "@/components/sections/MoreProjects";
 import { copy, experience, featured, profile, projects, skills } from "@/data";
 import { useReveal } from "@/hooks/useReveal";
-import { useSnapScroll } from "@/hooks/useSnapScroll";
 
 /**
  * The whole page, top to bottom. To reorder, add or remove a section, edit the list below;
@@ -19,7 +18,6 @@ import { useSnapScroll } from "@/hooks/useSnapScroll";
  */
 export function HomePage() {
   useReveal();
-  useSnapScroll();
 
   return (
     <div className="min-h-screen">

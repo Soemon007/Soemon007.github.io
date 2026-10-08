@@ -29,8 +29,8 @@ src/
 │  ├─ overlays/          ComingSoonOverlay ("haven't added that yet")
 │  └─ ui/                generated shadcn components. Not used by the page today; don't hand-edit.
 │
-├─ hooks/                useReveal (fade-in on scroll), useSnapScroll (glide between sections)
-├─ lib/                  links.ts (link handling), gradients.ts, seo.ts (<head> tags), snap.ts (scroll-snap rules), utils.ts (cn)
+├─ hooks/                useReveal (fade-in on scroll)
+├─ lib/                  links.ts (link handling), gradients.ts, seo.ts (<head> tags), utils.ts (cn)
 ├─ styles.css            entry point; imports everything in styles/
 ├─ styles/               fonts, tokens (colours), base, utilities, motion, decor, sections
 └─ test/                 data, page, SEO and project-rule tests
