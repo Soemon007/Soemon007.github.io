@@ -9,7 +9,7 @@ export const site = {
   shareDescription: "Portfolio of Rehan Mallik, Chemical Engineering student at IIT Bombay.",
   /** Link-preview image, 1200×630, served from /public. */
   shareImage: "/og.jpg",
-  shareImageAlt: "Rehan Mallik, Chemical engineering at IIT Bombay",
+  shareImageAlt: "Rehan Mallik, Chemical engineering student at IIT Bombay",
   /** Shown in the footer. A fixed number, so the page never differs between build and visit. */
   copyrightYear: 2026,
 };
