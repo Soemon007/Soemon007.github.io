@@ -7,11 +7,15 @@
     "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
+    "build:static": "vite build && node scripts/export-static.mjs",
+    "verify:static": "node scripts/verify-static.mjs",
     "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "check": "bun run typecheck && bun run lint && bun run test && bun run build:static && bun run verify:static"
   },
   "overrides": {
     "rolldown": "1.2.1"

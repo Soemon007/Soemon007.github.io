@@ -1,0 +1,176 @@
+/* Decoration: custom cursor, graph-paper backdrop, and the geometric line artwork. */
+
+/* Custom cursor (subtle). See components/decor/CustomCursor.tsx */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: 9999px;
+}
+.cursor-dot {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: var(--foreground);
+}
+.cursor-ring {
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 18%, transparent);
+  transition:
+    width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    margin 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.4s ease,
+    border-color 0.4s ease;
+}
+.cursor-ring[data-hover] {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-color: transparent;
+  background: color-mix(in oklab, var(--lavender) 35%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* Subtle graph-paper backdrop across the whole site. See components/decor/GraphBackdrop.tsx */
+.bg-graph {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--foreground) 4.5%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--foreground) 4.5%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--foreground) 2%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--foreground) 2%, transparent) 1px,
+      transparent 1px
+    );
+  background-size:
+    160px 160px,
+    160px 160px,
+    32px 32px,
+    32px 32px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 30%, transparent 100%);
+}
+
+/* Mathematical line studies: deliberate geometry rather than blurred decoration.
+   The shapes are drawn by components/decor/GeometryArt.tsx; the placement classes below
+   (.geometry-hero-left, .geometry-project ...) say where and how large each one sits. */
+.geometry-art {
+  display: block;
+  flex-shrink: 0;
+  stroke: var(--art-ink);
+  stroke-width: 1;
+  overflow: visible;
+}
+.geometry-guide {
+  stroke-dasharray: 3 9;
+  opacity: 0.45;
+}
+.geometry-hero-left {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  left: -125px;
+  top: 18px;
+  opacity: 0.25;
+  animation: geometry-turn 100s linear infinite;
+}
+.geometry-hero-right {
+  position: absolute;
+  width: 330px;
+  height: 330px;
+  right: -110px;
+  bottom: -28px;
+  opacity: 0.22;
+  animation: geometry-turn 120s linear infinite reverse;
+}
+.geometry-project {
+  width: min(100%, 360px);
+  aspect-ratio: 1;
+  opacity: 0.7;
+  transition: transform 1.2s ease;
+}
+.group:hover .geometry-project {
+  transform: rotate(8deg);
+}
+.geometry-about {
+  width: 420px;
+  height: 420px;
+  right: -190px;
+  top: -80px;
+  opacity: 0.13;
+}
+.section-cut .geometry-about {
+  right: 0;
+  width: 230px;
+}
+.geometry-contact {
+  width: 500px;
+  height: 500px;
+  left: -235px;
+  top: -70px;
+  opacity: 0.22;
+}
+@keyframes geometry-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 767px) {
+  .geometry-hero-left {
+    width: 220px;
+    height: 220px;
+    left: -130px;
+    top: -40px;
+    opacity: 0.18;
+  }
+  .geometry-hero-right {
+    width: 200px;
+    height: 200px;
+    right: -125px;
+    bottom: -40px;
+    opacity: 0.18;
+  }
+  .geometry-project {
+    max-width: 260px;
+  }
+  .geometry-contact {
+    left: -330px;
+    opacity: 0.15;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .geometry-art {
+    animation: none;
+    transition: none;
+  }
+  .group:hover .geometry-project {
+    transform: none;
+  }
+}

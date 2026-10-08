@@ -1,0 +1,73 @@
+/* Animation: drifting colour orbs, scroll-reveal, and the reduced-motion overrides for all of it. */
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(6%, -5%) scale(1.08);
+  }
+  66% {
+    transform: translate(-5%, 4%) scale(0.95);
+  }
+}
+@utility orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.75;
+  will-change: transform;
+  transform: translateZ(0);
+  animation: drift 22s ease-in-out infinite;
+}
+
+/* Fade-in on scroll. Add `reveal` to any element; the useReveal hook does the rest.
+   Hidden only once <html> has the `js` class, so the page is readable before scripts load. */
+@utility reveal {
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+  html.js &:not([data-in]) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (max-width: 640px) {
+  .orb {
+    filter: blur(50px);
+    animation-duration: 30s;
+  }
+}
+
+/* Never print a page with hidden sections. */
+@media print {
+  html.js .reveal:not([data-in]) {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+  }
+  html.js .reveal:not([data-in]) {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal {
+    transition: none;
+  }
+  .lift:hover,
+  .pill:hover {
+    transform: none;
+  }
+  .flow-panel {
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

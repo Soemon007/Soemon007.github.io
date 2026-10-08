@@ -1,0 +1,50 @@
+/*
+ * Design tokens: every colour, font and radius on the site is defined here, once.
+ * Components never hard-code a colour; they use these through Tailwind (bg-card, text-muted-foreground,
+ * bg-peach ...) or var(--name). To re-theme the site, change the values in :root.
+ */
+
+@theme inline {
+  --font-sans: "Libron", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius-card: 28px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-band: var(--band);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--band);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--foreground);
+  --color-peach: var(--peach);
+  --color-lavender: var(--lavender);
+  --color-mint: var(--mint);
+  --color-sky: var(--sky);
+  --color-butter: var(--butter);
+  --color-art-ink: var(--art-ink);
+}
+
+:root {
+  /* Surfaces and text */
+  --background: oklch(1 0 0);
+  --band: oklch(0.973 0.003 75);
+  --card: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --muted-foreground: oklch(0.52 0 0);
+  --primary: oklch(0.145 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --border: oklch(0.935 0 0);
+
+  /* Accent palette, used for gradients, orbs and the timeline */
+  --peach: oklch(0.86 0.08 50);
+  --lavender: oklch(0.84 0.07 295);
+  --mint: oklch(0.89 0.08 165);
+  --sky: oklch(0.87 0.07 230);
+  --butter: oklch(0.94 0.1 95);
+
+  /* Line colour of the geometric artwork */
+  --art-ink: oklch(0.38 0.025 170);
+}

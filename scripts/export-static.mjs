@@ -7,8 +7,9 @@
 //   bun run build:static
 import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { discoverRoutes, outputFile } from "./routes.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const serverEntry = resolve(root, ".output/server/index.mjs");
@@ -35,17 +36,30 @@ async function render(path, expectedStatus) {
   return html;
 }
 
+async function write(file, contents) {
+  const target = resolve(outDir, file);
+  await mkdir(dirname(target), { recursive: true });
+  await writeFile(target, contents);
+}
+
 await rm(outDir, { recursive: true, force: true });
 await mkdir(outDir, { recursive: true });
 await cp(publicDir, outDir, { recursive: true });
 // Cloudflare-only header rules emitted by the build; GitHub Pages ignores them.
 await rm(resolve(outDir, "_headers"), { force: true });
 
-await writeFile(resolve(outDir, "index.html"), await render("/", 200));
+// Every page in the route tree, so a page added later is published without touching this script.
+const routes = discoverRoutes(root);
+for (const path of routes.static) await write(outputFile(path), await render(path, 200));
+for (const path of routes.dynamic) {
+  console.warn(`Skipped ${path}: pages with a parameter cannot be built ahead of time.`);
+}
 // GitHub Pages serves 404.html for any unknown URL. Render a path no route can match.
-await writeFile(resolve(outDir, "404.html"), await render("/__not-found__", 404));
+await write("404.html", await render("/__not-found__", 404));
 // Stops GitHub Pages from running Jekyll over the output.
-await writeFile(resolve(outDir, ".nojekyll"), "");
+await write(".nojekyll", "");
 
-console.log(`Static site written to ${outDir}`);
+console.log(
+  `Static site written to ${outDir} (${routes.static.length} page(s): ${routes.static.join(", ")})`,
+);
 process.exit(0);
