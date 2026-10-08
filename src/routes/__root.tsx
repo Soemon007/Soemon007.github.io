@@ -11,7 +11,6 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -86,8 +85,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      // Fonts are self-hosted (see styles.css). Preload the one used above the fold.
-      { rel: "preload", href: interFont, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
