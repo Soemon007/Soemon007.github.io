@@ -62,9 +62,27 @@ jobs:
           git push origin main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      # A push made by a workflow does not always start the Pages build, so ask for it explicitly.
+      # GitHub Pages normally starts by itself after the commit above. Asking again is a safety net, so
+      # it must never turn an otherwise successful run red.
       - name: Ask GitHub Pages to update
         if: steps.commit.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null \
+            || echo "::notice::Could not ask GitHub Pages to update; it normally starts by itself."
+
+      # The problem this guards against: GitHub Pages sometimes leaves a build queued, and the site
+      # silently stays on the old version. Wait for the new version to appear and warn if it does not.
+      - name: Confirm the live site updated
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          expected=$(grep -oE '/assets/index-[A-Za-z0-9_-]+\.js' docs/index.html | head -1)
+          for i in $(seq 1 40); do
+            if curl -fsSL "https://soemon007.github.io/?cb=$RANDOM" | grep -q "$expected"; then
+              echo "Live site is serving $expected"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "::warning::The live site is still serving the old version after 10 minutes. Open the Actions tab, cancel any stuck 'pages build and deployment' run, and re-run it."
