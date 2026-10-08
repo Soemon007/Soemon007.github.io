@@ -1,7 +1,8 @@
 # Publishes the website automatically.
 #
 # Every time a change is pushed to main (for example an edit made on github.com), this checks the
-# project, rebuilds the published site in docs/, commits it, and asks GitHub Pages to update.
+# project (tidying spacing first), rebuilds the published site in docs/, commits it, and asks GitHub
+# Pages to update.
 # The change is live a few minutes later. A change that fails the checks is NOT published: the run
 # shows a red cross, with the reason, under the repository's Actions tab.
 #
@@ -11,7 +12,7 @@ name: Publish site
 on:
   push:
     branches: [main]
-    # The workflow's own commit only touches docs/, so it must not start another run.
+    # A push that only changes the rebuilt site (docs/) does not need another run.
     paths-ignore:
       - "docs/**"
   workflow_dispatch:
@@ -42,6 +43,11 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      # Fix spacing and line breaks automatically, so a stray space in an edit made on github.com can
+      # never block publishing. Real mistakes (a broken link, a broken rule) still stop the run below.
+      - name: Tidy formatting
+        run: bun x prettier --write "src/**/*.{ts,tsx}"
+
       # Type check, lint, tests, then rebuild docs/ and verify it. Fails here if a rule is broken,
       # and then nothing below runs, so the live site is never replaced by a broken one.
       - name: Check the project and rebuild docs/
@@ -52,13 +58,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A docs
+          git add -A src docs
           if git diff --cached --quiet; then
             echo "docs/ is already up to date. Nothing to publish."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git commit -m "Publish site (built from ${GITHUB_SHA::7})"
+          message="Publish site (built from ${GITHUB_SHA::7})"
+          if ! git diff --cached --quiet -- src; then message="$message and tidy formatting"; fi
+          git commit -m "$message"
           git push origin main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 

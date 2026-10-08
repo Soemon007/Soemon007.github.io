@@ -104,10 +104,11 @@ This repo is the single home of the website: the source code **and** the publish
 ### Publishing
 
 **Automatically (this is on).** Edit any file on github.com (for example `src/data/projects.ts`) and commit to
-`main`. The workflow in `.github/workflows/publish.yml` then runs the checks, rebuilds `docs/`, commits it, and
-tells GitHub Pages to update. The change is live a few minutes later. If a check fails (a mistyped link, a broken
-rule), **nothing is published**; the run shows a red cross with the reason under the repo's **Actions** tab, and
-the live site stays as it was.
+`main`. The workflow in `.github/workflows/publish.yml` then tidies spacing and line breaks automatically (so a
+stray space can never block you), runs the checks, rebuilds `docs/`, commits it, and tells GitHub Pages to update.
+The change is live a few minutes later. If a check fails for a real reason (a mistyped link, a broken rule),
+**nothing is published**; the run shows a red cross with the reason under the repo's **Actions** tab, and the
+live site stays as it was.
 
 **By hand** (works without the workflow too):
 
