@@ -105,7 +105,7 @@ This repo is the single home of the website: the source code **and** the publish
 
 **Automatically (this is on).** Edit any file on github.com (for example `src/data/projects.ts`) and commit to
 `main`. The workflow in `.github/workflows/publish.yml` then tidies spacing and line breaks automatically (so a
-stray space can never block you), runs the checks, rebuilds `docs/`, commits it, and tells GitHub Pages to update.
+a stray space can never block a publish), runs the checks, rebuilds `docs/`, commits it, and tells GitHub Pages to update.
 The change is live a few minutes later. If a check fails for a real reason (a mistyped link, a broken rule),
 **nothing is published**; the run shows a red cross with the reason under the repo's **Actions** tab, and the
 live site stays as it was.
@@ -119,18 +119,18 @@ git add -A && git commit -m "Describe the change" && git push
 
 Never hand-edit `docs/`; the next build replaces it.
 
-### Bringing in edits made in Lovable
+### Syncing with Lovable (maintainer note)
 
-Lovable saves to a separate repo, `Soemon007/rehan-portfolio`. To bring its edits here:
+The site was started in [Lovable](https://lovable.dev), which saves to a separate repository,
+`Soemon007/rehan-portfolio`. Changes made there are merged into this repo with:
 
 ```sh
 git pull https://github.com/Soemon007/rehan-portfolio main
 bun run check
-git add -A && git commit -m "Publish Lovable edits" && git push
+git add -A && git commit -m "Merge Lovable edits" && git push
 ```
 
-(Or ask Claude to do it.) If Lovable lets you connect this repo directly, do that and this step disappears.
-Always run `bun run check` after pulling: it will flag anything Lovable's edit broke.
+Always run `bun run check` after pulling: it flags anything the incoming change breaks.
 
 ### If the site looks stale
 

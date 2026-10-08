@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 // The rules that keep this codebase consistent, written as tests. They are described in
@@ -174,5 +174,67 @@ describe("project setup", () => {
       expect(existsSync(join(root, file)), file).toBe(true);
     }
     expect(read("public/robots.txt")).toContain("Sitemap:");
+  });
+});
+
+describe("public repository", () => {
+  const docs = ["README.md", "AGENTS.md", "SECURITY.md", ...filesIn("guides", /\.md$/)];
+
+  it("only links to files that exist", () => {
+    for (const doc of docs) {
+      const text = read(doc);
+      const targets = [
+        ...[...text.matchAll(/\]\(([^)\s]+)\)/g)].map((m) => m[1] ?? ""),
+        ...[...text.matchAll(/(?:src|href)="([^"]+)"/g)].map((m) => m[1] ?? ""),
+      ];
+      for (const target of targets) {
+        if (/^(https?:|mailto:|#)/.test(target)) continue;
+        const file = target.split("#")[0] ?? "";
+        if (!file) continue;
+        const exists = existsSync(join(root, dirname(doc), file));
+        expect(exists, `${doc} links to ${target}, which does not exist`).toBe(true);
+      }
+    }
+  });
+
+  it("gives a visitor the essentials in the README", () => {
+    const readme = read("README.md");
+    expect(readme).toContain("https://soemon007.github.io");
+    for (const heading of ["## Highlights", "## Run it locally", "## License and credits"]) {
+      expect(readme, `README is missing "${heading}"`).toContain(heading);
+    }
+  });
+
+  it("keeps the public documents free of private instructions", () => {
+    for (const doc of ["README.md", "SECURITY.md"]) {
+      expect(read(doc), `${doc} reads like a private note`).not.toMatch(
+        /\b(Claude|ask me|tell me)\b/i,
+      );
+    }
+  });
+
+  it("ships the licence text that goes with the bundled fonts", () => {
+    for (const file of [
+      "public/fonts/LICENSE-Libron.txt",
+      "public/fonts/LICENSE-JetBrainsMono.txt",
+    ]) {
+      expect(existsSync(join(root, file)), `${file} is missing`).toBe(true);
+      expect(read(file), `${file} should contain the SIL Open Font License`).toContain(
+        "SIL OPEN FONT LICENSE",
+      );
+    }
+  });
+
+  it("has a security policy", () => {
+    expect(existsSync(join(root, "SECURITY.md"))).toBe(true);
+  });
+
+  it("pins third-party GitHub Actions to an exact commit", () => {
+    const workflow = read(".github/workflows/publish.yml");
+    for (const match of workflow.matchAll(/uses:\s*([^\s@]+)@(\S+)/g)) {
+      const [, action = "", ref = ""] = match;
+      if (action.startsWith("actions/")) continue; // maintained by GitHub itself
+      expect(ref, `${action} must be pinned to a full commit SHA`).toMatch(/^[0-9a-f]{40}$/);
+    }
   });
 });

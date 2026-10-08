@@ -1,5 +1,11 @@
 {
   "name": "tanstack_start_ts",
+  "description": "Personal portfolio website of Rehan Mallik",
+  "homepage": "https://soemon007.github.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Soemon007/Soemon007.github.io.git"
+  },
   "private": true,
   "sideEffects": false,
   "type": "module",
