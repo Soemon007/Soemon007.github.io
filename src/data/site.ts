@@ -3,8 +3,8 @@
 export const site = {
   /** Public address of the live site (no trailing slash). Used for canonical and share links. */
   url: "https://soemon007.github.io",
-  title: "Rehan Mallik · ML, Quant & Product · IIT Bombay",
-  shareTitle: "Rehan Mallik · ML, Quant & Product",
+  title: "Rehan Mallik",
+  shareTitle: "Rehan Mallik",
   description:
     "Portfolio of Rehan Mallik, Chemical Engineering student at IIT Bombay building ML systems for medicine and markets.",
   shareDescription: "Building intelligent systems for medicine and markets.",

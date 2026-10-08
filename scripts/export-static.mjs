@@ -2,10 +2,11 @@
 //
 // `bun run build` produces a server bundle (.output/server) plus hashed assets
 // (.output/public). GitHub Pages cannot run the server, so this script renders each page through
-// that bundle once and writes the resulting HTML next to the assets. The result lands in `dist/`.
+// that bundle once and writes the resulting HTML next to the assets. The result lands in `docs/`,
+// the folder GitHub Pages publishes (Settings > Pages > main /docs).
 //
 //   bun run build:static
-import { cp, mkdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -14,7 +15,7 @@ import { discoverRoutes, outputFile } from "./routes.mjs";
 const root = resolve(import.meta.dirname, "..");
 const serverEntry = resolve(root, ".output/server/index.mjs");
 const publicDir = resolve(root, ".output/public");
-const outDir = resolve(root, "dist");
+const outDir = resolve(root, "docs");
 
 if (!existsSync(serverEntry)) {
   console.error("No build found. Run `bun run build` first (or use `bun run build:static`).");
@@ -42,6 +43,18 @@ async function write(file, contents) {
   await writeFile(target, contents);
 }
 
+// docs/ is generated output and is replaced on every build. Refuse to wipe a folder that does not look
+// like one, so hand-written files are never deleted by mistake.
+if (
+  existsSync(outDir) &&
+  (await readdir(outDir)).length > 0 &&
+  !existsSync(resolve(outDir, ".nojekyll"))
+) {
+  console.error(
+    "docs/ exists but is not a previous build (no .nojekyll). Move your files elsewhere first.",
+  );
+  process.exit(1);
+}
 await rm(outDir, { recursive: true, force: true });
 await mkdir(outDir, { recursive: true });
 await cp(publicDir, outDir, { recursive: true });

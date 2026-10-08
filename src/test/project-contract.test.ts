@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 // The rules that keep this codebase consistent, written as tests. They are described in
-// AGENTS.md and docs/ARCHITECTURE.md. If one fails, the message says which file broke which rule.
+// AGENTS.md and guides/ARCHITECTURE.md. If one fails, the message says which file broke which rule.
 
 const root = process.cwd();
 const read = (path: string) => readFileSync(join(root, path), "utf8");
@@ -141,9 +141,18 @@ describe("project setup", () => {
     const agents = read("AGENTS.md");
     expect(agents).toContain("LOVABLE:BEGIN");
     expect(agents).toContain("Project conventions");
-    for (const doc of ["docs/ARCHITECTURE.md", "docs/DESIGN_SYSTEM.md"]) {
+    for (const doc of ["guides/ARCHITECTURE.md", "guides/DESIGN_SYSTEM.md"]) {
       expect(existsSync(join(root, doc)), doc).toBe(true);
       expect(agents, `AGENTS.md should point to ${doc}`).toContain(doc);
+    }
+  });
+
+  it("keeps the published site in docs/ (the folder GitHub Pages serves)", () => {
+    for (const file of ["docs/index.html", "docs/404.html", "docs/.nojekyll"]) {
+      expect(
+        existsSync(join(root, file)),
+        `${file} is missing. Run "bun run build:static" and commit docs/.`,
+      ).toBe(true);
     }
   });
 
