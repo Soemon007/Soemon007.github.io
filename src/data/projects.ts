@@ -9,8 +9,7 @@ export const featured: FeaturedProject[] = [
   {
     title: "Multi-Modal Anaemia Screening",
     meta: "Research · Prof. Nirmal Punjabi · Aug '26 – Present",
-    description:
-      "This was my introduction to the world of research",
+    description: "This was my introduction to the world of research",
     metrics: [
       { value: "95.6%", label: "Accuracy" },
       { value: "99.1%", label: "F1 (5-fold CV)" },
@@ -42,7 +41,7 @@ export const featured: FeaturedProject[] = [
     title: "Corrective RAG Pipeline",
     meta: "Summer of Science",
     description:
-        "A self-paced summer project where I got to learn a lot about generative and agentic AI",
+      "A self-paced summer project where I got to learn a lot about generative and agentic AI",
     metrics: [],
     tags: ["LLMs", "RAG", "Agentic AI"],
     github: "",
