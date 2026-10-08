@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowRight, Github, Linkedin, Mail, Menu, X, Download, BarChart3, ArrowLeft } from "lucide-react";
 import { CustomCursor } from "@/components/CustomCursor";
+import { GeometryArt } from "@/components/GeometryArt";
 import { profile, featured, projects, experience, skills } from "@/data/portfolio";
 
 export const Route = createFileRoute("/")({
@@ -79,9 +80,6 @@ function Nav() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <a href="#contact" className="block bg-band py-2.5 text-center text-[13px] text-foreground">
-        Open to summer 2027 internships in quant, ML and product <ArrowRight className="ml-1 inline h-3.5 w-3.5" />
-      </a>
       <header className="sticky top-0 z-50 border-b bg-background/75 backdrop-blur-xl">
         <Container className="flex h-16 items-center justify-between">
           <a href="#top" className="text-[17px] font-medium tracking-tight">Rehan Mallik</a>
@@ -110,11 +108,8 @@ function Hero() {
   return (
     <section id="top" className="relative overflow-hidden pb-20 pt-16 sm:pt-24 md:pb-28 md:pt-36">
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="orb left-[8%] top-[5%] h-80 w-80 bg-peach" />
-        <div className="orb right-[10%] top-[0%] h-96 w-96 bg-lavender [animation-delay:-6s]" />
-        <div className="orb left-[30%] top-[40%] h-72 w-72 bg-mint [animation-delay:-12s]" />
-        <div className="orb right-[25%] top-[45%] h-64 w-64 bg-sky [animation-delay:-3s]" />
-        <div className="orb left-[55%] top-[15%] h-56 w-56 bg-butter [animation-delay:-9s]" />
+        <GeometryArt variant="orbit" className="geometry-hero-left" />
+        <GeometryArt variant="fold" className="geometry-hero-right" />
       </div>
       <Container className="relative text-center">
         <h1 className="display reveal mx-auto max-w-5xl text-[clamp(40px,8vw,96px)]">
@@ -149,13 +144,14 @@ function SectionHead({ label, title }: { label: string; title: string }) {
 
 function Work() {
   return (
-    <section id="work" className="py-20 md:py-28 lg:py-36">
+    <section id="work" className="section-cut work-layout py-20 md:py-28 lg:py-36">
       <Container>
         <SectionHead label="Selected work" title="Research and systems I've built" />
         <div className="flex flex-col gap-8">
           {featured.map((f, i) => (
             <article key={f.title} className="group reveal lift grid overflow-hidden rounded-[var(--radius-card)] border bg-card md:grid-cols-2">
               <div className={`${gradClass[f.gradient]} flow-panel flex min-h-56 sm:min-h-72 items-center justify-center p-8 ${i % 2 ? "md:order-2" : ""}`}>
+                <GeometryArt variant={i % 3 === 0 ? "orbit" : i % 3 === 1 ? "fold" : "wave"} className="geometry-project" />
               </div>
               <div className="flex min-w-0 flex-col p-6 sm:p-8 lg:p-12">
                 <p className="label-mono">{f.meta}</p>
@@ -184,13 +180,13 @@ function Work() {
 
 function More() {
   return (
-    <section className="bg-band py-20 md:py-28 lg:py-36">
+    <section className="section-cut more-layout py-20 md:py-28 lg:py-36">
       <Container>
         <SectionHead label="More projects" title="Other things I've made" />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((p) => (
             <article key={p.title} className="group reveal lift flex flex-col rounded-[var(--radius-card)] border bg-card p-6 sm:p-8">
-              <div className={`${gradClass[p.gradient]} h-10 w-10 rounded-full`} />
+              <div aria-hidden className={`${gradClass[p.gradient]} flow-panel h-10 w-10 rounded-full`} />
               <h3 className="mt-6 text-xl font-normal tracking-tight">{p.title}</h3>
               <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted-foreground">{p.text}</p>
               <div className="mt-6 flex flex-wrap gap-2">{p.tags.map((t) => <Tag key={t}>{t}</Tag>)}</div>
@@ -205,8 +201,8 @@ function More() {
 
 function Experience() {
   return (
-    <section id="experience" className="py-20 md:py-28 lg:py-36">
-      <Container>
+    <section id="experience" className="experience-layout py-20 md:py-28 lg:py-36">
+      <Container className="experience-columns">
         <SectionHead label="PROFESSIONAL EXPERIENCE" title="Where I've worked" />
         <ul className="timeline border-t">
           {experience.map((e, i) => (
@@ -227,8 +223,9 @@ function Experience() {
 
 function About() {
   return (
-    <section id="about" className="bg-band py-20 md:py-28 lg:py-36">
-      <Container>
+    <section id="about" className="section-cut section-cut-reverse relative py-20 md:py-28 lg:py-36">
+      <GeometryArt variant="wave" className="geometry-about pointer-events-none absolute" />
+      <Container className="relative">
         <p className="label-mono reveal">About</p>
         <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-16">
           <p className="reveal text-2xl font-light leading-snug tracking-tight md:text-[28px]">
@@ -252,13 +249,16 @@ function Contact() {
   return (
     <section id="contact" className="py-20 md:py-28 lg:py-36">
       <Container>
-        <div className="group reveal grad-lavender flow-panel rounded-[var(--radius-card)] px-5 py-16 text-center sm:py-24 md:py-32">
+        <div className="group reveal relative overflow-hidden grad-lavender flow-panel rounded-[var(--radius-card)] px-5 py-16 text-center sm:py-24 md:py-32">
+          <GeometryArt variant="wave" className="geometry-contact pointer-events-none absolute" />
+          <div className="relative">
           <h2 className="display text-[clamp(44px,7vw,88px)]">Wanna get in touch?</h2>
           <p className="mt-6 break-all text-muted-foreground">Here are ways you can contact me:</p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <a href={`mailto:${profile.email}`} className="pill pill-primary"><Mail className="h-4 w-4" />Email me</a>
             <a href={profile.github} {...ext} className="pill pill-secondary"><Github className="h-4 w-4" />GitHub</a>
             <a href={profile.linkedin} {...ext} className="pill pill-secondary"><Linkedin className="h-4 w-4" />LinkedIn</a>
+          </div>
           </div>
         </div>
       </Container>

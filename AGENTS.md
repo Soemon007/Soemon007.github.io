@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep reusable decorative line compositions in a browser-safe GeometryArt component, with appearance controlled by semantic CSS tokens, so section artwork stays consistent and easy to change.

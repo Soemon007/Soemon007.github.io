@@ -28,6 +28,7 @@
   --color-mint: var(--mint);
   --color-sky: var(--sky);
   --color-butter: var(--butter);
+  --color-art-ink: var(--art-ink);
 }
 
 :root {
@@ -44,6 +45,7 @@
   --mint: oklch(0.89 0.08 165);
   --sky: oklch(0.87 0.07 230);
   --butter: oklch(0.94 0.1 95);
+  --art-ink: oklch(0.38 0.025 170);
 }
 
 @layer base {
@@ -189,3 +191,90 @@
 .timeline-dot-1 { border-color: var(--sky); }
 .timeline-dot-2 { border-color: var(--mint); }
 li:hover .timeline-dot { transform: scale(1.35); }
+
+/* Mathematical line studies: deliberate geometry rather than blurred decoration. */
+.geometry-art {
+  display: block;
+  flex-shrink: 0;
+  stroke: var(--art-ink);
+  stroke-width: 1;
+  overflow: visible;
+}
+.geometry-guide { stroke-dasharray: 3 9; opacity: .45; }
+.geometry-hero-left {
+  position: absolute; width: 360px; height: 360px;
+  left: -125px; top: 18px; opacity: .25;
+  animation: geometry-turn 100s linear infinite;
+}
+.geometry-hero-right {
+  position: absolute; width: 330px; height: 330px;
+  right: -110px; bottom: -28px; opacity: .22;
+  animation: geometry-turn 120s linear infinite reverse;
+}
+.geometry-project {
+  width: min(100%, 360px); aspect-ratio: 1;
+  opacity: .7; transition: transform 1.2s ease;
+}
+.group:hover .geometry-project { transform: rotate(8deg); }
+.geometry-about { width: 420px; height: 420px; right: -190px; top: -80px; opacity: .13; }
+.section-cut .geometry-about { right: 0; width: 230px; }
+.geometry-contact { width: 500px; height: 500px; left: -235px; top: -70px; opacity: .22; }
+@keyframes geometry-turn { to { transform: rotate(360deg); } }
+@media (max-width: 767px) {
+  .geometry-hero-left { width: 220px; height: 220px; left: -130px; top: -40px; opacity: .18; }
+  .geometry-hero-right { width: 200px; height: 200px; right: -125px; bottom: -40px; opacity: .18; }
+  .geometry-project { max-width: 260px; }
+  .geometry-contact { left: -330px; opacity: .15; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .geometry-art { animation: none; transition: none; }
+  .group:hover .geometry-project { transform: none; }
+}
+
+/* Folded section edges and an offset editorial rhythm, without clipping content. */
+main > section { scroll-margin-top: 84px; }
+.section-cut {
+  position: relative;
+  isolation: isolate;
+  margin-block: 44px;
+}
+.section-cut::before {
+  content: "";
+  position: absolute;
+  inset: -44px 0;
+  z-index: -1;
+  background: var(--band);
+  clip-path: polygon(0 44px, 100% 0, 100% calc(100% - 44px), 0 100%);
+}
+.section-cut-reverse::before {
+  clip-path: polygon(0 0, 100% 44px, 100% 100%, 0 calc(100% - 44px));
+}
+.section-cut::after {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: color-mix(in oklab, var(--art-ink) 20%, transparent);
+  transform: skewY(-1.5deg);
+  pointer-events: none;
+}
+.section-cut-reverse::after { transform: skewY(1.5deg); }
+@media (min-width: 1024px) {
+  .work-layout article { width: 94%; }
+  .work-layout article:nth-child(even) { align-self: flex-end; }
+  .more-layout article:nth-child(3n + 2) { margin-top: 40px; margin-bottom: -40px; }
+  .more-layout article:nth-child(3n + 3) { margin-top: 80px; margin-bottom: -80px; }
+  .more-layout { padding-bottom: 224px; }
+  .experience-columns { display: grid; grid-template-columns: 1fr 1.6fr; gap: 64px; align-items: start; }
+  .experience-columns > .reveal { position: sticky; top: 112px; }
+  .experience-columns h2 { font-size: 56px; }
+  .experience-columns .timeline li { grid-template-columns: 1fr; gap: 12px; }
+}
+@media (max-width: 767px) {
+  .section-cut { margin-block: 24px; }
+  .section-cut::before { inset: -24px 0; clip-path: polygon(0 24px, 100% 0, 100% calc(100% - 24px), 0 100%); }
+  .section-cut-reverse::before { clip-path: polygon(0 0, 100% 24px, 100% 100%, 0 calc(100% - 24px)); }
+  .section-cut::after { top: -12px; }
+}
