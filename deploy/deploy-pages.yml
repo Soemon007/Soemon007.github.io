@@ -1,5 +1,6 @@
-# Builds the site and publishes it to https://soemon007.github.io on every push to main,
-# so changes made in Lovable go live without any manual copying.
+# Checks the site, builds it, and publishes it to https://soemon007.github.io on every push to main,
+# so changes made in Lovable go live without any manual copying. A change that fails the checks
+# (types, lint, tests, build verification) is never published.
 #
 # NOT ACTIVE YET: GitHub only runs workflows from .github/workflows/. To turn it on, follow
 # "Turning on auto-deploy" in the README (move this file there and add the PAGES_DEPLOY_KEY secret).
@@ -38,7 +39,8 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      - run: bun run build:static
+      # Type check, lint, tests, static build and build verification (see package.json "check").
+      - run: bun run check
 
       - name: Publish skipped (no deploy key)
         if: env.HAS_DEPLOY_KEY != 'true'

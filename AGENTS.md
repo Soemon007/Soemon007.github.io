@@ -10,3 +10,49 @@
 <!-- LOVABLE:END -->
 
 - Keep reusable decorative line compositions in a browser-safe GeometryArt component, with appearance controlled by semantic CSS tokens, so section artwork stays consistent and easy to change.
+
+## Project conventions
+
+Read this before changing anything. It keeps the site looking and behaving the same as it grows.
+Details: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (where things live, how to add things) and
+[docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) (colours, type, spacing, components).
+
+### The rules
+
+1. **Content lives in `src/data/`.** Every word, link and number on the site is in a typed file there
+   (`copy.ts`, `projects.ts`, `experience.ts`, `skills.ts`, `profile.ts`, `site.ts`). Components never
+   contain site text. To add a project, add one object to `src/data/projects.ts`. Nothing else changes.
+2. **The page is assembled from small components.** `src/routes/index.tsx` only wires the URL to
+   `components/HomePage.tsx`; each section is its own file in `components/sections/`. Keep files short and
+   single-purpose. Do not build page markup inside a route file.
+3. **Reuse the building blocks. Do not copy their class lists.** `Section`, `Container`, `SectionHead`,
+   `PillLink` (every button), `TagList`, `ProjectLinks`, `FeaturedProjectCard`, `ProjectCard`, `GeometryArt`.
+   If a look is needed in two places, make or extend a component.
+4. **Style with tokens only.** Colours, fonts and radius are defined once in `src/styles/tokens.css` and used
+   through Tailwind (`bg-card`, `text-muted-foreground`, `bg-peach` ...). Never write hex, rgb, hsl or oklch
+   values in a component. A new colour goes into `tokens.css` first.
+5. **Put styles in the right stylesheet** (all imported by `src/styles.css`): reusable looks as `@utility`
+   in `utilities.css`, section layout in `sections.css`, animation in `motion.css`, decoration in `decor.css`.
+   Write Tailwind class names out in full so they can be found. Never build them from strings.
+6. **Motion must respect reduced motion.** Fade-in on scroll is the `reveal` class (see `hooks/useReveal.ts`).
+   Any new animation gets a `prefers-reduced-motion` override in `motion.css`.
+7. **Nothing render-blocking from other sites.** Fonts are self-hosted in `public/fonts/`. Do not add Google
+   Fonts or other external stylesheets or scripts.
+8. **Keep the accessibility basics.** One `<h1>`; every icon-only link has an `aria-label`; interactive
+   elements stay real links and buttons; the menu button keeps `aria-expanded`.
+9. **A link with no URL yet** is left empty (`""`). It then opens the "haven't added that yet" page
+   automatically. Never use `href="#"`.
+
+### Working on existing files
+
+- **Edit the existing file. Do not regenerate a file from scratch.** Files contain fixes made elsewhere
+  (SEO tags, accessibility, performance); rewriting from memory silently removes them.
+- Do not remove scripts from `package.json`, or the files in `scripts/` and `docs/`.
+- `src/components/ui/` is generated shadcn code and `src/routeTree.gen.ts` is generated. Don't hand-edit.
+- Adding a page: create a file in `src/routes/`, then add its URL to `public/sitemap.xml`.
+  The static build finds new pages by itself.
+
+### Before you finish
+
+Run `bun run check`. It runs the type check, lint, tests, builds the static site and verifies it.
+The tests enforce the rules above, so a failure message tells you which rule was broken and where.
