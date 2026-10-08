@@ -208,9 +208,10 @@ function Experience() {
     <section id="experience" className="py-20 md:py-28 lg:py-36">
       <Container>
         <SectionHead label="PROFESSIONAL EXPERIENCE" title="Where I've worked" />
-        <ul className="border-t">
-          {experience.map((e) => (
-            <li key={e.role} className="reveal grid gap-3 border-b py-10 md:grid-cols-[200px_1fr] md:gap-10">
+        <ul className="timeline border-t">
+          {experience.map((e, i) => (
+            <li key={e.role} className="reveal relative grid gap-3 border-b py-10 pl-8 md:grid-cols-[200px_1fr] md:gap-10 md:pl-12">
+              <span aria-hidden className={`timeline-dot timeline-dot-${i % 3}`} />
               <p className="label-mono pt-1">{e.date}</p>
               <div>
                 <h3 className="text-2xl font-normal tracking-tight">{e.role === "Junior Engineer" ? "Junior Engineer · IITB Rocket Team" : <>{e.role} <span className="text-muted-foreground">· {e.org}</span></>}</h3>
